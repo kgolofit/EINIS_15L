@@ -43,6 +43,11 @@ public class MainController {
 	
 	@FXML
 	protected void runGenAlgorithm(ActionEvent event) {
+		
+		if(chart.getData().size() <= 0) {
+			return;
+		}
+		
 		// Zebranie parametrów
 		AlgorithmParameters params = new AlgorithmParameters(
 				(int)polyNumSlider.getValue(),
