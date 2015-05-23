@@ -22,6 +22,8 @@ import scala.collection.JavaConversions._
 class Algorithm {
   type Input = List[Point]
 
+  def solve(input: util.List[Point], polynomialDegree: Int): Polynomial = solve(input.toList, polynomialDegree)
+
   /**
    * Rozwiązuje problem
    *

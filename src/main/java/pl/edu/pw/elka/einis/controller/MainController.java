@@ -1,12 +1,21 @@
 package pl.edu.pw.elka.einis.controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import pl.edu.pw.elka.einis.algorithm.Algorithm;
+import pl.edu.pw.elka.einis.entity.Point;
+import pl.edu.pw.elka.einis.entity.Polynomial;
+import scala.collection.JavaConversions;
+import scala.collection.JavaConverters;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainController {
 	
@@ -23,7 +32,13 @@ public class MainController {
 	
 	@FXML
 	protected void runGenAlghoritm(ActionEvent event) {
-		// TODO
+		System.out.println("Running algorithm...");
+		List<Point> points = chart.getData().get(0).getData().stream()
+				.map(data -> new Point(data.getXValue().doubleValue(), data.getYValue().doubleValue()))
+				.collect(Collectors.toList());
+		Algorithm algorithm = new Algorithm();
+		Polynomial result = algorithm.solve(points, 5); //FIXME - hardcode
+		System.out.println("Evolved polynomial: " + result);
 	}
 	
 	@FXML
@@ -54,5 +69,4 @@ public class MainController {
 		
 		chart.getData().get(0).getData().add(new XYChart.Data(x, y));
 	}
-
 }
