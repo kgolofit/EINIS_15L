@@ -34,7 +34,7 @@
                <children>
                   <Button fx:id="deleteGenChartsButton" mnemonicParsing="false" onAction="#deleteGeneratedCharts" text="Usuń generowane wykresy" />
                   <Button fx:id="clearChartButton" mnemonicParsing="false" onAction="#clearAllChart" text="Wyczyść wykres" />
-                  <Button id="runButton" fx:id="runGenAlghoritmButton" mnemonicParsing="false" onAction="#runGenAlghoritm" text="Uruchom alg genetyczny" />
+                  <Button id="runButton" fx:id="runGenAlghoritmButton" mnemonicParsing="false" onAction="#runGenAlgorithm" text="Uruchom alg genetyczny" />
                </children>
             </HBox>
             <LineChart id="chart" fx:id="chart" minHeight="-20" minWidth="-Infinity" onMouseReleased="#chartMouseClicked">

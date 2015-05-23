@@ -22,20 +22,26 @@ import scala.collection.JavaConversions._
 class Algorithm {
   type Input = List[Point]
 
-  def solve(input: util.List[Point], polynomialDegree: Int): Polynomial = solve(input.toList, polynomialDegree)
+  /**
+   * Rozwiązuje problem
+   *
+   * @param input
+   * @param params parametry
+   * @return znalezione rozwiązanie
+   */
+  def solve(input: util.List[Point], params: AlgorithmParameters): Polynomial = solve(input.toList, params)
 
   /**
    * Rozwiązuje problem
    *
    * @param input
-   * @param polynomialDegree
+   * @param params parametry
    * @return
    */
-  def solve(input: Input, polynomialDegree: Int): Polynomial = {
-    val engine = createEngine(input, polynomialDegree)
-    //FIXME:: hardcode
+  def solve(input: Input, params: AlgorithmParameters): Polynomial = {
+    val engine = createEngine(input, params.polynomialDegree)
     //TODO:: można dodać evolution observer
-    engine.evolve(100, 50, new GenerationCount(100))
+    engine.evolve(params.populationSize, params.successorsNum, new GenerationCount(params.iterationNum))
   }
 
   /**
