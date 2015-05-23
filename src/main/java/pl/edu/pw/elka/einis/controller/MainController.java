@@ -1,29 +1,41 @@
 package pl.edu.pw.elka.einis.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 
 public class MainController {
 	
-	@FXML private Label polyLabel;
-	@FXML private Slider polySlider;
-	@FXML private Button runButton;
+	@FXML private Slider polyNumSlider;
+	@FXML private Slider iterationNumSlider;
+	@FXML private Slider populationNumSlider;
+	@FXML private Slider succNumSlider;
+	
+	@FXML private Button deleteGenChartsButton;
+	@FXML private Button clearChartButton;
+	@FXML private Button runGenAlghoritmButton;
+	
 	@FXML private LineChart<Number, Number> chart;
 	
 	@FXML
-	protected void xAxisClicked(MouseEvent event) {
-		
+	protected void runGenAlghoritm(ActionEvent event) {
+		// TODO
 	}
 	
 	@FXML
-	protected void yAxisClicked(MouseEvent event) {
-		
+	protected void clearAllChart(ActionEvent event) {
+		chart.getData().clear();
+	}
+	
+	@FXML
+	protected void deleteGeneratedCharts(ActionEvent event) {
+		for(int i=1; i<chart.getData().size(); i++){
+			chart.getData().remove(i);
+		}
 	}
 	
 	@FXML
