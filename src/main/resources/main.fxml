@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Button id="button" layoutX="450.0" layoutY="42.0" mnemonicParsing="false" text="Run genetic" />
+      <LineChart id="chart" layoutY="103.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Slider id="slider" blockIncrement="1.0" layoutX="156.0" layoutY="40.0" majorTickUnit="2.0" max="20.0" min="1.0" minorTickCount="1" prefHeight="14.0" prefWidth="277.0" showTickLabels="true" showTickMarks="true" value="5.0" />
+      <Label layoutX="29.0" layoutY="38.0" text="Stopień wielomianu:" />
+   </children>
+</AnchorPane>
