@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pw.elka.einis.controller.MainController">
    <children>
-      <Button id="button" layoutX="450.0" layoutY="42.0" mnemonicParsing="false" text="Run genetic" />
-      <LineChart id="chart" layoutY="103.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </LineChart>
-      <Slider id="slider" blockIncrement="1.0" layoutX="156.0" layoutY="40.0" majorTickUnit="2.0" max="20.0" min="1.0" minorTickCount="1" prefHeight="14.0" prefWidth="277.0" showTickLabels="true" showTickMarks="true" value="5.0" />
-      <Label layoutX="29.0" layoutY="38.0" text="Stopień wielomianu:" />
+      <VBox alignment="CENTER" layoutX="-12.0" layoutY="-29.0" prefHeight="568.0" prefWidth="614.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label id="polyLabel" text="Stopień wielomianu:" />
+                  <Slider id="polySlider" blockIncrement="1.0" majorTickUnit="2.0" max="20.0" min="1.0" minorTickCount="1" prefHeight="14.0" prefWidth="277.0" showTickLabels="true" showTickMarks="true" value="5.0" />
+                  <Button id="runButton" mnemonicParsing="false" text="Run genetic" />
+               </children>
+               <opaqueInsets>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </opaqueInsets>
+            </HBox>
+            <LineChart id="chart" fx:id="chart" minHeight="-20" minWidth="-Infinity" onMouseReleased="#chartMouseClicked">
+              <xAxis>
+                <NumberAxis autoRanging="false" lowerBound="-30.0" onMouseReleased="#xAxisClicked" side="BOTTOM" tickLabelGap="2.0" upperBound="30.0" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis autoRanging="false" lowerBound="-10.0" minorTickCount="3" side="LEFT" tickLabelGap="2.0" tickUnit="2.0" upperBound="10.0" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
