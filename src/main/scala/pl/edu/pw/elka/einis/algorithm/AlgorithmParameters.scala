@@ -11,4 +11,5 @@ class AlgorithmParameters(
                            val iterationNum: Int,
                            val populationSize: Int,
                            val successorsNum: Int
-                           )
+                           ) {
+}
