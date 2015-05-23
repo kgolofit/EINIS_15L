@@ -1,5 +1,7 @@
 package pl.edu.pw.elka.einis.entity
 
+import java.util
+
 /**
  * Wielomian
  *
@@ -23,5 +25,9 @@ class Polynomial(val coeffs: Array[Double]) {
       result += coeffs(i) * math.pow(x, i)
     })
     result
+  }
+
+  override def toString = {
+    util.Arrays.toString(coeffs)
   }
 }
