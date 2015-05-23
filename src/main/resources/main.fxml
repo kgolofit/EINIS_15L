@@ -37,6 +37,7 @@
                   <Button id="runButton" fx:id="runGenAlghoritmButton" mnemonicParsing="false" onAction="#runGenAlgorithm" text="Uruchom alg genetyczny" />
                </children>
             </HBox>
+            <ProgressBar fx:id="progressBar" prefWidth="500.0" progress="0.0" visible="false" />
             <LineChart id="chart" fx:id="chart" minHeight="-20" minWidth="-Infinity" onMouseReleased="#chartMouseClicked">
               <xAxis>
                 <NumberAxis autoRanging="false" lowerBound="-30.0" side="BOTTOM" tickLabelGap="2.0" upperBound="30.0" />

@@ -6,6 +6,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import pl.edu.pw.elka.einis.algorithm.Algorithm;
@@ -33,6 +34,8 @@ public class MainController {
 	@FXML private Button clearChartButton;
 	@FXML private Button runGenAlghoritmButton;
 	
+	@FXML private ProgressBar progressBar;
+	
 	@FXML private LineChart<Number, Number> chart;
 	
 	@FXML
@@ -45,12 +48,14 @@ public class MainController {
 				(int)succNumSlider.getValue()
 		);
 		logger.debug("Running algorithm; degree: " + params.polynomialDegree());
+		progressBar.setVisible(true);
 		List<Point> points = chart.getData().get(0).getData().stream()
 				.map(data -> new Point(data.getXValue().doubleValue(), data.getYValue().doubleValue()))
 				.collect(Collectors.toList());
 		Algorithm algorithm = new Algorithm();
 		Polynomial result = algorithm.solve(points, params);
 		logger.debug("Evolved polynomial: " + result);
+		progressBar.setVisible(false);
 		drawPolynomial(result);
 	}
 	
