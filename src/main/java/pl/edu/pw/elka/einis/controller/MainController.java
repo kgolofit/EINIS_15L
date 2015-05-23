@@ -44,7 +44,7 @@ public class MainController {
 				(int)populationNumSlider.getValue(),
 				(int)succNumSlider.getValue()
 		);
-		logger.debug("Running algorithm...");
+		logger.debug("Running algorithm; degree: " + params.polynomialDegree());
 		List<Point> points = chart.getData().get(0).getData().stream()
 				.map(data -> new Point(data.getXValue().doubleValue(), data.getYValue().doubleValue()))
 				.collect(Collectors.toList());

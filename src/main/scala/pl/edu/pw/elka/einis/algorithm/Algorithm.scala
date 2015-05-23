@@ -6,7 +6,7 @@ import java.util.Random
 import org.uncommons.maths.random.JavaRNG
 import org.uncommons.watchmaker.framework._
 import org.uncommons.watchmaker.framework.factories.AbstractCandidateFactory
-import org.uncommons.watchmaker.framework.operators.DoubleArrayCrossover
+import org.uncommons.watchmaker.framework.operators.{EvolutionPipeline, DoubleArrayCrossover}
 import org.uncommons.watchmaker.framework.selection.RankSelection
 import org.uncommons.watchmaker.framework.termination.GenerationCount
 import pl.edu.pw.elka.einis.entity.{Point, Polynomial}
@@ -56,7 +56,7 @@ class Algorithm {
     val cf = new AbstractCandidateFactory[Polynomial] {
       override def generateRandomCandidate(random: Random): Polynomial = {
         val coeffs = new Range(0, polynomialDegree, 1).map(i => {
-          random.nextDouble()
+          random.nextDouble() * 10 - 5
         }).toArray
         new Polynomial(coeffs)
       }
@@ -72,15 +72,32 @@ class Algorithm {
 
       override def isNatural: Boolean = false
     }
-    val eo = new EvolutionaryOperator[Polynomial] {
+    val crossover = new EvolutionaryOperator[Polynomial] {
       override def apply(list: util.List[Polynomial], random: Random): util.List[Polynomial] = {
         // Wykorzystujemy DoubleArrayCrossover na współczynnikach wielomianu
         val newCoeffsList = new DoubleArrayCrossover().apply(list.toList.map(polynomial => polynomial.coeffs), random)
         newCoeffsList.map(coeffs => new Polynomial(coeffs))
       }
     }
+    val mutation = new EvolutionaryOperator[Polynomial] {
+      override def apply(list: util.List[Polynomial], random: Random): util.List[Polynomial] = {
+        if (random.nextDouble() > 0.5) { //prawd. mutacji
+          val newList = new util.ArrayList[Polynomial]
+          for (polynomial <- list) {
+            val newCoeffs = polynomial.coeffs.map(coeff => {
+              val mutation = random.nextGaussian()
+              coeff + mutation
+            })
+            newList.add(new Polynomial(newCoeffs))
+          }
+          return newList
+        }
+        list
+      }
+    }
+    val pipeline = new EvolutionPipeline[Polynomial](util.Arrays.asList(crossover, mutation))
     // TODO:: Selection strategy - do ogarnięcia, która jak działa
     val ss = new RankSelection()
-    new GenerationalEvolutionEngine[Polynomial](cf, eo, fe, ss, new JavaRNG())
+    new GenerationalEvolutionEngine[Polynomial](cf, pipeline, fe, ss, new JavaRNG())
   }
 }
