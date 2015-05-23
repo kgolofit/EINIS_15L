@@ -11,6 +11,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import pl.edu.pw.elka.einis.algorithm.Algorithm;
 import pl.edu.pw.elka.einis.algorithm.AlgorithmParameters;
+import pl.edu.pw.elka.einis.algorithm.ProgressListener;
 import pl.edu.pw.elka.einis.entity.Point;
 import pl.edu.pw.elka.einis.entity.Polynomial;
 
@@ -37,6 +38,8 @@ public class MainController {
 	@FXML private ProgressBar progressBar;
 	
 	@FXML private LineChart<Number, Number> chart;
+
+	private Algorithm algorithm;
 	
 	@FXML
 	protected void runGenAlgorithm(ActionEvent event) {
@@ -48,14 +51,12 @@ public class MainController {
 				(int)succNumSlider.getValue()
 		);
 		logger.debug("Running algorithm; degree: " + params.polynomialDegree());
-		progressBar.setVisible(true);
 		List<Point> points = chart.getData().get(0).getData().stream()
 				.map(data -> new Point(data.getXValue().doubleValue(), data.getYValue().doubleValue()))
 				.collect(Collectors.toList());
-		Algorithm algorithm = new Algorithm();
+		Algorithm algorithm = getAlgorithm();
 		Polynomial result = algorithm.solve(points, params);
 		logger.debug("Evolved polynomial: " + result);
-		progressBar.setVisible(false);
 		drawPolynomial(result);
 	}
 	
@@ -106,5 +107,16 @@ public class MainController {
 			series.getData().add(new XYChart.Data<>(x, y));
 		}
 		chart.getData().add(series);
+	}
+
+	private Algorithm getAlgorithm() {
+		if (algorithm == null) {
+			algorithm = new Algorithm();
+			algorithm.progressListener_$eq((progress) -> {
+				progressBar.setProgress(progress);
+				logger.debug("Progress: " + progress + "%");
+			});
+		}
+		return algorithm;
 	}
 }

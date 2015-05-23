@@ -21,6 +21,7 @@ import scala.collection.JavaConversions._
  */
 class Algorithm {
   type Input = List[Point]
+  var progressListener: ProgressListener = null
 
   /**
    * Rozwiązuje problem
@@ -40,7 +41,12 @@ class Algorithm {
    */
   def solve(input: Input, params: AlgorithmParameters): Polynomial = {
     val engine = createEngine(input, params.polynomialDegree)
-    //TODO:: można dodać evolution observer
+    if (progressListener != null) {
+      engine.addEvolutionObserver(new EvolutionObserver[Polynomial] {
+        override def populationUpdate(populationData: PopulationData[_ <: Polynomial]): Unit =
+          progressListener.update(populationData.getGenerationNumber.toDouble / params.iterationNum)
+      })
+    }
     engine.evolve(params.populationSize, params.successorsNum, new GenerationCount(params.iterationNum))
   }
 
