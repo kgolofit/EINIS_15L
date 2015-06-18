@@ -30,4 +30,8 @@ class Polynomial(val coeffs: Array[Double]) {
   override def toString = {
     util.Arrays.toString(coeffs)
   }
+  
+  def getDegree = {
+    coeffs.length
+  }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
@@ -7,16 +8,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pw.elka.einis.controller.MainController">
+<AnchorPane maxHeight="660.0" maxWidth="600.0" minHeight="480.0" minWidth="600.0" prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pw.elka.einis.controller.MainController">
    <children>
-      <VBox alignment="CENTER" prefHeight="539.0" prefWidth="596.0">
+      <VBox alignment="CENTER" maxHeight="660.0" maxWidth="600.0" minHeight="480.0" minWidth="600.0" prefHeight="480.0" prefWidth="600.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label id="polyLabel" text="Stopień wielomianu:" />
-                  <Slider id="polySlider" fx:id="polyNumSlider" blockIncrement="1.0" majorTickUnit="2.0" max="20.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" value="5.0" />
-                  <Label text="Ilość iteracji" />
-                  <Slider fx:id="iterationNumSlider" majorTickUnit="100.0" max="50000.0" min="20.0" minorTickCount="2" showTickLabels="true" showTickMarks="true" value="50.0" />
+                  <Label id="polyLabel" text="Stopień wielomianu:" textAlignment="RIGHT" wrapText="true" />
+                  <TextField fx:id="polyNumText" alignment="CENTER" maxWidth="30.0" minWidth="30.0" onKeyReleased="#polyNumTextChanged" prefWidth="30.0" text="5">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </TextField>
+                  <Slider id="polySlider" fx:id="polyNumSlider" blockIncrement="1.0" majorTickUnit="1.0" max="12.0" min="2.0" minorTickCount="0" onMouseReleased="#polyNumSliderChanged" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
+                  <Label text="Ilość iteracji" textAlignment="RIGHT" wrapText="true" />
+                  <TextField fx:id="iterationNumText" alignment="CENTER" maxWidth="60.0" minWidth="60.0" onKeyReleased="#iterationNumTextChanged" prefWidth="60.0" text="100">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </TextField>
+                  <Slider fx:id="iterationNumSlider" majorTickUnit="50000.0" max="100000.0" min="20.0" minorTickCount="5" onMouseReleased="#iterationNumSliderChanged" showTickLabels="true" showTickMarks="true" value="100.0" />
                </children>
                <opaqueInsets>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -24,10 +35,20 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Liczność populacji" />
-                  <Slider fx:id="populationNumSlider" blockIncrement="5.0" majorTickUnit="50.0" max="200.0" min="5.0" showTickLabels="true" showTickMarks="true" value="50.0" />
-                  <Label text="Ilość osob. do sukcesji" />
-                  <Slider fx:id="succNumSlider" majorTickUnit="50.0" max="200.0" min="5.0" showTickLabels="true" showTickMarks="true" value="25.0" />
+                  <Label text="Liczność populacji" textAlignment="RIGHT" wrapText="true" />
+                  <TextField fx:id="populationNumText" alignment="CENTER" maxWidth="40.0" minWidth="40.0" onKeyReleased="#populationNumTextChanged" prefWidth="40.0" text="50">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </TextField>
+                  <Slider fx:id="populationNumSlider" blockIncrement="5.0" majorTickUnit="50.0" max="200.0" min="5.0" minorTickCount="2" onMouseReleased="#populationNumSliderChanged" showTickLabels="true" showTickMarks="true" value="50.0" />
+                  <Label text="Ilość osob. do sukcesji" textAlignment="RIGHT" wrapText="true" />
+                  <TextField fx:id="succNumText" alignment="CENTER" maxWidth="40.0" minWidth="40.0" onKeyReleased="#succNumTextChanged" prefWidth="40.0" text="25">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </TextField>
+                  <Slider fx:id="succNumSlider" majorTickUnit="50.0" max="200.0" min="5.0" onMouseReleased="#succNumSliderChanged" showTickLabels="true" showTickMarks="true" value="25.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -38,7 +59,7 @@
                </children>
             </HBox>
             <ProgressBar fx:id="progressBar" prefWidth="500.0" progress="0.0" visible="true" />
-            <LineChart id="chart" fx:id="chart" minHeight="-20" minWidth="-Infinity" onMouseReleased="#chartMouseClicked">
+            <LineChart id="chart" fx:id="chart" minHeight="-20.0" minWidth="-Infinity" onMouseReleased="#chartMouseClicked" onScroll="#chartScroll" prefHeight="331.0" prefWidth="596.0">
               <xAxis>
                 <NumberAxis autoRanging="false" lowerBound="-30.0" side="BOTTOM" tickLabelGap="2.0" upperBound="30.0" />
               </xAxis>
