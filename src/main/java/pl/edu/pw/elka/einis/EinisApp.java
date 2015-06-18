@@ -15,9 +15,11 @@ import org.apache.log4j.PatternLayout;
  *
  */
 public class EinisApp extends Application {
+	
+	private static String APP_NAME = "WieloGen - EINIS 2015L";
 
 	public static void main(String[] args) {
-		String logFormat = "%d [%t] %-5p %c - %m%n";//"[%c{1}] [%p] %m%n"; // %d [%t] %-5p %c - %m%n
+		String logFormat = "%d [%t] %-5p %c - %m%n";
 		ConsoleAppender consoleAppender = new ConsoleAppender(new PatternLayout(logFormat));
 		BasicConfigurator.configure(consoleAppender);
 
@@ -32,7 +34,7 @@ public class EinisApp extends Application {
 
 		Scene scene = new Scene(root);
 
-		stage.setTitle("EINIS App");
+		stage.setTitle(APP_NAME);
 		stage.setScene(scene);
 		stage.show();
 	}

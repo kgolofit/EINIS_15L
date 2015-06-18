@@ -116,9 +116,6 @@ public class MainController {
 		while(chart.getData().size() > 1) {
 			chart.getData().remove(1);
 		}
-//		for(int i=1; i<chart.getData().size(); i++){
-//			chart.getData().remove(i);
-//		}
 	}
 	
 	/* --------------------------------------- */
