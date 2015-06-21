@@ -12,7 +12,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -55,7 +55,7 @@ public class MainController {
 	@FXML private Button clearChartButton;
 	@FXML private Button runGenAlghoritmButton;
 	
-	@FXML private ProgressBar progressBar;
+	@FXML private ProgressIndicator progInd;
 	
 	@FXML private LineChart<Number, Number> chart;
 
@@ -231,7 +231,7 @@ public class MainController {
 	@FXML
 	protected void chartMouseClicked(MouseEvent event) {
 		if(chart.getData().isEmpty()) {
-			LineChart.Series series = new LineChart.Series();
+			LineChart.Series<Number, Number> series = new LineChart.Series<Number, Number>();
 			series.setName(USER_POINTS_NAME);
 			chart.getData().add(series);
 		}
@@ -253,7 +253,7 @@ public class MainController {
 		double lowerBound = xAxis.getLowerBound();
 		double upperBound = xAxis.getUpperBound();
 		double step = (upperBound - lowerBound) / 100;
-		LineChart.Series series = new LineChart.Series();
+		LineChart.Series<Number, Number> series = new LineChart.Series<Number, Number>();
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 		series.setName("Wielomian " + polynomial.getDegree() + " st " + formatter.format(new Date()));
 		for (double x = lowerBound; x <= upperBound; x += step) {
@@ -267,10 +267,34 @@ public class MainController {
 		if (algorithm == null) {
 			algorithm = new Algorithm();
 			algorithm.progressListener_$eq((progress) -> {
-				progressBar.setProgress(progress);
-				logger.debug("Progress: " + progress + "%");
+				logger.debug("Progress: " + (progress*100) + "%");
+				UpdateProgressBar upd = new UpdateProgressBar(progInd, progress);
+				Thread th = new Thread(upd);
+				th.setPriority(10);
+				th.start();
 			});
 		}
 		return algorithm;
+	}
+	
+	private class UpdateProgressBar implements Runnable{
+		
+		private ProgressIndicator progInd;
+		private double progress;
+
+		public UpdateProgressBar(ProgressIndicator progInd, double progress) {
+			this.progInd = progInd;
+			this.progress = progress;
+		}
+
+		@Override
+		public void run() {
+			if(progress >= 0.99) {
+				progInd.setProgress(1.0d);
+			}
+			else {
+				progInd.setProgress(progress);
+			}
+		}
 	}
 }
