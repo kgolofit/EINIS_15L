@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -77,13 +78,35 @@ public class MainController {
 				(int)succNumSlider.getValue()
 		);
 		logger.debug("Running algorithm; degree: " + params.polynomialDegree());
-		List<Point> points = chart.getData().get(0).getData().stream()
+		final List<Point> points = chart.getData().get(0).getData().stream()
 				.map(data -> new Point(data.getXValue().doubleValue(), data.getYValue().doubleValue()))
 				.collect(Collectors.toList());
-		Algorithm algorithm = getAlgorithm();
-		Polynomial result = algorithm.solve(points, params);
-		logger.debug("Evolved polynomial: " + result);
-		drawPolynomial(result);
+		Task task = new Task<Void>() {
+			Polynomial result;
+			@Override
+			protected Void call() throws Exception {
+//				Algorithm algorithm = getAlgorithm(this);
+				algorithm = new Algorithm();
+				algorithm.progressListener_$eq((progress) -> {
+					logger.debug("Progress: " + (progress*100) + "%");
+					updateProgress(progress, 1.0);
+				});
+				result = algorithm.solve(points, params);
+				logger.debug("Evolved polynomial: " + result);
+				updateProgress(1, 1);
+				return null;
+			}
+			@Override
+			protected void succeeded() {
+				drawPolynomial(result);
+			}
+		};
+		if (progInd.progressProperty().isBound()) {
+			progInd.progressProperty().unbind();
+		}
+		progInd.progressProperty().bind(task.progressProperty());
+		new Thread(task).start();
+
 	}
 	
 	@FXML
@@ -262,38 +285,5 @@ public class MainController {
 			series.getData().add(new XYChart.Data<>(x, y));
 		}
 		chart.getData().add(series);
-	}
-
-	private Algorithm getAlgorithm() {
-		if (algorithm == null) {
-			algorithm = new Algorithm();
-			algorithm.progressListener_$eq((progress) -> {
-				logger.debug("Progress: " + (progress*100) + "%");
-				UpdateProgressBar upd = new UpdateProgressBar(progInd, progress);
-				Platform.runLater(upd);
-			});
-		}
-		return algorithm;
-	}
-	
-	private class UpdateProgressBar implements Runnable{
-		
-		private ProgressIndicator progInd;
-		private double progress;
-
-		public UpdateProgressBar(ProgressIndicator progInd, double progress) {
-			this.progInd = progInd;
-			this.progress = progress;
-		}
-
-		@Override
-		public void run() {
-			if(progress >= 0.99) {
-				progInd.setProgress(1.0d);
-			}
-			else {
-				progInd.setProgress(progress);
-			}
-		}
 	}
 }
