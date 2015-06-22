@@ -33,11 +33,6 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.scala-tools</groupId>
-					<artifactId>maven-scala-plugin</artifactId>
-					<version>2.9.1</version>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.3</version>
@@ -77,20 +72,26 @@
 			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>
+				<version>2.15.2</version>
 				<executions>
 					<execution>
-						<id>scala-compile-first</id>
-						<phase>process-resources</phase>
+						<id>compile</id>
 						<goals>
-							<goal>add-source</goal>
 							<goal>compile</goal>
 						</goals>
+						<phase>compile</phase>
 					</execution>
 					<execution>
-						<id>scala-test-compile</id>
-						<phase>process-test-resources</phase>
+						<id>test-compile</id>
 						<goals>
 							<goal>testCompile</goal>
+						</goals>
+						<phase>test-compile</phase>
+					</execution>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>compile</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -103,39 +104,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.scala-tools</groupId> -->
-<!-- 				<artifactId>maven-scala-plugin</artifactId> -->
-<!-- 				<version>2.10.1</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>prepare-package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>script</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<keepGeneratedScript>true</keepGeneratedScript> -->
-<!-- 							<script> -->
-<!--                 <![CDATA[ -->
-<!--         import java.io.{File,  PrintWriter, FileWriter}; -->
-<!--         import scalax.io.FileExtras; -->
-<!--         import scala.collection.mutable.HashSet; -->
-
-<!--         val outputDir = project.getBuild().getOutputDirectory(); -->
-<!--         val depsFile = new FileExtras( new File( outputDir, "deps.txt" ) ) -->
-<!--         val pw = depsFile.printWriter -->
-<!--         val depSet = new HashSet[String] -->
-<!--         for( d <- project.getDependencies() ) { -->
-<!--           depSet += d.getGroupId + ":" + d.getArtifactId + ":" + d.getVersion -->
-<!--         } -->
-<!--         pw.writeLines( depSet.toSeq ) -->
-
-<!--                 ]]> -->
-<!-- 							</script> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
 		</plugins>
 	</build>
 

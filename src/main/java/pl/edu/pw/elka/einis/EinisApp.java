@@ -32,9 +32,6 @@ public class EinisApp extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		
-		// when building runnable JAR with Eclipse Scala IDE use this line:
-//		 Parent root = FXMLLoader.load(getClass().getResource("/resources/main.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
 
 		Scene scene = new Scene(root);
