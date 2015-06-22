@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -269,9 +270,7 @@ public class MainController {
 			algorithm.progressListener_$eq((progress) -> {
 				logger.debug("Progress: " + (progress*100) + "%");
 				UpdateProgressBar upd = new UpdateProgressBar(progInd, progress);
-				Thread th = new Thread(upd);
-				th.setPriority(10);
-				th.start();
+				Platform.runLater(upd);
 			});
 		}
 		return algorithm;
